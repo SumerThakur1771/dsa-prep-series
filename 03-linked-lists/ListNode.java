@@ -52,6 +52,33 @@ class ListNode{
         return head;
     }
 
+    static ListNode reverse(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr !=null){
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    static ListNode nthFromEnd(ListNode head, int n){
+        ListNode fast = head;
+        ListNode slow = head;
+
+        for(int i = 0; i < n; i++){
+            fast = fast.next;
+        }
+
+        while(fast != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
 public static void main(String[] args) {
     ListNode node1 = new ListNode(1);
     ListNode node2 = new ListNode(2);
@@ -71,6 +98,12 @@ public static void main(String[] args) {
     print(node1);
     node1 = remove(node1,2);
     print(node1);
+    node1 = reverse(node1);
+    print(node1);
+
+    ListNode nthNode = nthFromEnd(node1, 2);
+    System.out.println("nth node from end is "+ nthNode.val);
+
 }
 }
 
