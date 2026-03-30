@@ -79,31 +79,48 @@ class ListNode{
         return slow;
     }
 
+    static boolean floydCycle(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+
 public static void main(String[] args) {
     ListNode node1 = new ListNode(1);
     ListNode node2 = new ListNode(2);
     ListNode node3 = new ListNode(3);
+    ListNode node4 = new ListNode(4);
 
     node1.next = node2;
     node2.next = node3;
+    node3.next = node4;
+    node4.next = node3;
 
-    System.out.println(node1.val);
-    System.out.println(node1.next.val);
+    // System.out.println(node1.val);
+    // System.out.println(node1.next.val);
     
-    print(node1);
+    // print(node1);
 
-    node1 = addFront(node1, 0);
-    print(node1);
-    node1 = addLast(node1,4);
-    print(node1);
-    node1 = remove(node1,2);
-    print(node1);
-    node1 = reverse(node1);
-    print(node1);
+    // node1 = addFront(node1, 0);
+    // print(node1);
+    // node1 = addLast(node1,4);
+    // print(node1);
+    // node1 = remove(node1,2);
+    // print(node1);
+    // node1 = reverse(node1);
+    // print(node1);
 
-    ListNode nthNode = nthFromEnd(node1, 2);
-    System.out.println("nth node from end is "+ nthNode.val);
-
+    // ListNode nthNode = nthFromEnd(node1, 2);
+    // System.out.println("nth node from end is "+ nthNode.val);
+ boolean isFloyd = floydCycle(node1);
+    System.out.println(isFloyd);
 }
 }
 
