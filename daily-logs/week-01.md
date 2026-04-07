@@ -111,7 +111,16 @@
 ---
 
 ## Day 7 — March 31 (Sunday)
-*(to be filled)*
+
+**Topics Covered:** Week 1 revision
+
+**What I did:**
+- Revised all Linked List operations from README
+- Re-solved #15 3Sum from scratch — got it completely on my own ✅
+- Re-solved #11 Container With Most Water from scratch — got it on my own ✅
+- Code was cleaner on second attempt — combined area calculation with pointer movement
+
+**Key insight today:** Revision works. Second attempt at both problems was faster and cleaner than first attempt. Pattern recognition is building.
 
 ---
 
@@ -129,8 +138,23 @@
 
 ---
 
-## 🎯 Next Session (Day 7 — March 31)
-- Week 1 full revision
-- Review all linked list operations
-- Review all 5 LeetCode problems
-- Plan Week 2
+## 🏆 Week 1 Summary
+
+- **Concepts learned:** Node, traversal, addFront, addEnd, remove, reverse, Nth from end, Floyd's cycle detection, remove cycle, palindrome LL, merge sort on LL
+- **Problems solved:** 5/5 Blind 75 problems
+- **Biggest win:** Debugged reverse LL pointer order bug independently. Re-solved 3Sum and Container With Most Water from scratch on Day 7.
+- **Patterns learned:** Two pointers, fast/slow pointers, HashMap lookup, track min/max so far
+
+---
+
+## 🎯 Week 2 Plan (April 1–7)
+
+```
+Day 1 → Doubly LL, Circular LL | #3 Longest Substring Without Repeating
+Day 2 → Stack intro | #49 Group Anagrams
+Day 3 → Stack problems (NGE, Stock Span) | #206 Reverse LL
+Day 4 → Valid Parentheses, Duplicate Parens | #21 Merge Two Sorted Lists
+Day 5 → Max Area Histogram | #141 Linked List Cycle
+Day 6 → Queue intro + implementations | Revision
+Day 7 → Week 2 revision + notes
+```
