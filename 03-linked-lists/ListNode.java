@@ -115,7 +115,7 @@ class ListNode {
         }
         if (slow == fast) {
             ListNode curr = slow;
-            while(curr.next != slow){
+            while (curr.next != slow) {
                 curr = curr.next;
             }
             curr.next = null;
@@ -123,10 +123,10 @@ class ListNode {
         return head;
     }
 
-    static boolean isPalindrom(ListNode head){
+    static boolean isPalindrom(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while(fast!=null && fast.next!=null){
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -134,9 +134,9 @@ class ListNode {
         slow = head;
         fast = reverse(fast);
         boolean isPalindrom = true;
-        while(fast != null){
-            if(slow.val != fast.val){
-              isPalindrom = false;
+        while (fast != null) {
+            if (slow.val != fast.val) {
+                isPalindrom = false;
             }
             slow = slow.next;
             fast = fast.next;
@@ -144,11 +144,49 @@ class ListNode {
         return isPalindrom;
     }
 
+    static ListNode MergeSort(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode secondHalf = slow.next;
+        slow.next = null;
+        ListNode Left = MergeSort(head);
+        ListNode Right = MergeSort(secondHalf);
+        return merge(Left, Right);
+
+    }
+
+    static ListNode merge(ListNode left, ListNode right) {
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                curr.next = left;
+                left = left.next;
+            } else {
+                curr.next = right;
+                right = right.next;
+            }
+            curr = curr.next;
+        }
+        if (right != null)
+            curr.next = right;
+        if (left != null)
+            curr.next = left;
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
-        ListNode node1 = new ListNode(1);
+        ListNode node1 = new ListNode(4);
         ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(2);
-        ListNode node4 = new ListNode(1);
+        ListNode node3 = new ListNode(1);
+        ListNode node4 = new ListNode(3);
 
         node1.next = node2;
         node2.next = node3;
@@ -174,6 +212,8 @@ class ListNode {
         // System.out.println(isFloyd);
         // node1 = removeFloyde(node1);
         // print(node1);
-        System.out.println(isPalindrom(node1));
+        // System.out.println(isPalindrom(node1));
+        node1 = MergeSort(node1);
+        print(node1);
     }
 }
