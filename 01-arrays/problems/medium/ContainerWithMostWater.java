@@ -38,27 +38,48 @@
  *
  * Output: 49
  */
-
 class ContainerWithMostWater {
     public int maxArea(int[] height) {
         int maxArea = 0;
         int i = 0, j = height.length - 1;
-
+ 
         while (i < j) {
             int width = j - i;
-            int area = width * Math.min(height[i], height[j]);
-            maxArea = Math.max(area, maxArea);
-
+            int area;
+            // calculate area using shorter wall, then move that pointer
             if (height[i] < height[j]) {
+                area = width * height[i];  // height[i] is shorter
                 i++;
             } else {
+                area = width * height[j];  // height[j] is shorter or equal
                 j--;
             }
+            maxArea = Math.max(area, maxArea);
         }
-
+ 
         return maxArea;
     }
 }
+// class ContainerWithMostWater {
+//     public int maxArea(int[] height) {
+//         int maxArea = 0;
+//         int i = 0, j = height.length - 1;
+
+//         while (i < j) {
+//             int width = j - i;
+//             int area = width * Math.min(height[i], height[j]);
+//             maxArea = Math.max(area, maxArea);
+
+//             if (height[i] < height[j]) {
+//                 i++;
+//             } else {
+//                 j--;
+//             }
+//         }
+
+//         return maxArea;
+//     }
+// }
 
 /*
  * ─────────────────────────────────────────────
