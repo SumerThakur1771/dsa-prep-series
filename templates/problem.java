@@ -71,3 +71,29 @@ class Solution {
  * - #[num] [Problem Name] — [Difficulty]
  * - #[num] [Problem Name] — [Difficulty]
  */
+
+
+ListNode dummy = new ListNode(0);
+ListNode curr = dummy;
+
+while (list1 != null && list2 != null) {
+    // compare list1.val and list2.val
+    if(list1.val<list2.val){
+        curr.next = list1;
+        list1  = list1.next;
+    }else{
+        curr.next = list2;
+        list2 = list2.next;
+    }
+    curr = curr.next;
+    // attach smaller one to curr.next
+    // move that list's pointer forward
+    // move curr forward
+}
+if(list1!=null){
+    curr.next = list1;
+}
+if(list2!=null){
+    curr.next = list2;
+}
+return dummy.next;

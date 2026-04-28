@@ -148,6 +148,91 @@ Result: [1,1,1,2] ✅
 
 ---
 
+### Pattern 3: Valid Parentheses
+**When to use:** Check if brackets are properly opened and closed.
+
+**Approach:** Push opening brackets. When closing bracket found — pop and check if it matches. If stack empty at end → valid.
+
+**Time:** O(n) | **Space:** O(n)
+
+```java
+static boolean isValid(String s) {
+    Stack<Character> stack = new Stack<>();
+
+    for (char c : s.toCharArray()) {
+        if (c == '(' || c == '{' || c == '[') {
+            stack.push(c);
+        } else if (c == ')') {
+            if (stack.isEmpty() || stack.pop() != '(') return false;
+        } else if (c == ']') {
+            if (stack.isEmpty() || stack.pop() != '[') return false;
+        } else if (c == '}') {
+            if (stack.isEmpty() || stack.pop() != '{') return false;
+        }
+    }
+
+    return stack.isEmpty();
+}
+```
+
+**My doubt:** What if matching bracket exists but deeper in stack?
+**Answer:** That's always invalid! For valid brackets, when you see `)` the TOP of stack must always be `(`. If anything else is on top, brackets are crossed — always invalid.
+e.g. `"{(}"` — when `}` comes, top is `(` not `{` → invalid ❌
+
+**My doubt:** Why return stack.isEmpty() at end?
+**Answer:** If stack has remaining elements → unclosed opening brackets exist → invalid.
+e.g. `"((("` → stack = ['(','(','('] → not empty → invalid ❌
+
+---
+
+### Pattern 4: Duplicate Parentheses
+**When to use:** Check if an expression has redundant/useless brackets.
+
+**Approach:** Push everything except `)`. When `)` found — pop until `(` and count elements between them. If count == 0 → duplicate!
+
+**Time:** O(n) | **Space:** O(n)
+
+```java
+static boolean hasDuplicate(String s) {
+    Stack<Character> stack = new Stack<>();
+
+    for (char c : s.toCharArray()) {
+        if (c == ')') {
+            int count = 0;
+            while (stack.peek() != '(') {
+                stack.pop();
+                count++;
+            }
+            stack.pop(); // remove '(' itself
+            if (count == 0) return true; // duplicate found!
+        } else {
+            stack.push(c);
+        }
+    }
+
+    return false;
+}
+```
+
+**Dry Run:** `"((a+b))"`
+```
+( → push → stack=['(']
+( → push → stack=['(','(']
+a → push → stack=['(','(','a']
++ → push → stack=['(','(','a','+']
+b → push → stack=['(','(','a','+','b']
+) → pop until ( → popped b,+,a → count=3 → valid ✅ → stack=['(']
+) → pop until ( → popped nothing → count=0 → DUPLICATE! ✅
+```
+
+**My doubt:** Why does count==0 mean duplicate?
+**Answer:** If nothing between `(` and `)` — those brackets wrap nothing useful. Redundant brackets by definition contain no operators or variables directly.
+
+**My doubt:** Why don't brackets themselves count as meaningful?
+**Answer:** When we see `)`, inner brackets were already processed and popped in previous iterations. So only operators/variables remain between current `(` and `)`.
+
+---
+
 ## ⚠️ Common Mistakes
 
 - ❌ Using if instead of while for popping — multiple elements may need popping
