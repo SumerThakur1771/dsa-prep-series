@@ -233,6 +233,81 @@ b → push → stack=['(','(','a','+','b']
 
 ---
 
+### Pattern 5: Max Area Histogram
+**When to use:** Find largest rectangle that fits inside a histogram.
+
+**Key insight:** For any rectangle, height = shortest bar in selected range. Width = number of bars selected.
+
+**Brute Force — O(n²):**
+- Fix starting bar with outer loop
+- Expand right with inner loop
+- Track minimum height as you expand
+- Calculate area at each step
+
+```java
+static int maxAreaBrute(int[] heights) {
+    int maxArea = 0;
+
+    for (int i = 0; i < heights.length; i++) {
+        int minHeight = heights[i];
+
+        for (int j = i; j < heights.length; j++) {
+            minHeight = Math.min(minHeight, heights[j]);
+            int width = j - i + 1;
+            maxArea = Math.max(maxArea, width * minHeight);
+        }
+    }
+
+    return maxArea;
+}
+```
+
+**My doubt:** Why minHeight and not maxHeight?
+**Answer:** Rectangle can't be taller than shortest bar in range — it would go outside the histogram. Shortest bar is the limiting factor.
+
+**My doubt:** Why two loops?
+**Answer:** Need to try every possible start AND end combination. Outer loop fixes start, inner loop tries every end. One loop only gives one point — need two to define a rectangle.
+
+---
+
+**⚠️ Stack Approach — O(n) — REVISIT ON REVISION DAY**
+
+> NOTE: This approach was not fully clear during initial learning. Revisit after NGE and Stock Span are solidified.
+
+**Core idea:** For each bar as height, find first shorter bar on LEFT and RIGHT. Width = right_boundary - left_boundary - 1.
+
+Stack stores indices in increasing height order. When current bar is shorter than stack top → stack top found its right boundary. New stack top = left boundary.
+
+```java
+static int largestRectangleArea(int[] heights) {
+    int maxArea = 0;
+    Stack<Integer> stack = new Stack<>();
+
+    for (int i = 0; i <= heights.length; i++) {
+        int currHeight = (i == heights.length) ? 0 : heights[i];
+
+        while (!stack.isEmpty() && heights[stack.peek()] > currHeight) {
+            int height = heights[stack.pop()];
+            int left = stack.isEmpty() ? -1 : stack.peek();
+            int width = i - left - 1;
+            maxArea = Math.max(maxArea, height * width);
+        }
+
+        stack.push(i);
+    }
+
+    return maxArea;
+}
+```
+
+**My doubt:** Why i goes to heights.length (one past end)?
+**Answer:** To process remaining bars in stack after loop ends. Using height=0 at the end forces all remaining bars to be popped and calculated.
+
+**My doubt:** Why left = -1 when stack is empty?
+**Answer:** No bar to the left means rectangle extends all the way to index 0. Using -1 as boundary: width = i - (-1) - 1 = i gives correct width.
+
+---
+
 ## ⚠️ Common Mistakes
 
 - ❌ Using if instead of while for popping — multiple elements may need popping
