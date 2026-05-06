@@ -270,41 +270,80 @@ static int maxAreaBrute(int[] heights) {
 
 ---
 
-**⚠️ Stack Approach — O(n) — REVISIT ON REVISION DAY**
+**Stack Approach — O(n) ✅**
 
-> NOTE: This approach was not fully clear during initial learning. Revisit after NGE and Stock Span are solidified.
+**Core idea:** For each bar treat it as the HEIGHT of rectangle. Find:
+- First SHORTER bar to LEFT → left boundary
+- First SHORTER bar to RIGHT → right boundary
+- Width = right - left - 1
 
-**Core idea:** For each bar as height, find first shorter bar on LEFT and RIGHT. Width = right_boundary - left_boundary - 1.
+Three passes — find right smaller, find left smaller, calculate area.
 
-Stack stores indices in increasing height order. When current bar is shorter than stack top → stack top found its right boundary. New stack top = left boundary.
+**Why -1 for left when stack empty?**
+No shorter bar to left → rectangle starts from index 0. Using -1: `width = right - (-1) - 1` gives correct count including index 0.
+
+**Why n for right when stack empty?**
+No shorter bar to right → rectangle goes till last bar. Using n: `width = n - left - 1` gives correct count including last index.
 
 ```java
 static int largestRectangleArea(int[] heights) {
-    int maxArea = 0;
+    int n = heights.length;
+    int[] right = new int[n];
+    int[] left = new int[n];
     Stack<Integer> stack = new Stack<>();
 
-    for (int i = 0; i <= heights.length; i++) {
-        int currHeight = (i == heights.length) ? 0 : heights[i];
-
-        while (!stack.isEmpty() && heights[stack.peek()] > currHeight) {
-            int height = heights[stack.pop()];
-            int left = stack.isEmpty() ? -1 : stack.peek();
-            int width = i - left - 1;
-            maxArea = Math.max(maxArea, height * width);
+    // Pass 1: find right smaller for each bar
+    for (int i = n - 1; i >= 0; i--) {
+        while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+            stack.pop();
         }
-
+        right[i] = stack.isEmpty() ? n : stack.peek();
         stack.push(i);
+    }
+
+    // clear stack for reuse
+    while (!stack.isEmpty()) stack.pop();
+
+    // Pass 2: find left smaller for each bar
+    for (int i = 0; i < n; i++) {
+        while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+            stack.pop();
+        }
+        left[i] = stack.isEmpty() ? -1 : stack.peek();
+        stack.push(i);
+    }
+
+    // Pass 3: calculate max area
+    int maxArea = 0;
+    for (int i = 0; i < n; i++) {
+        int width = right[i] - left[i] - 1;
+        maxArea = Math.max(maxArea, heights[i] * width);
     }
 
     return maxArea;
 }
 ```
 
-**My doubt:** Why i goes to heights.length (one past end)?
-**Answer:** To process remaining bars in stack after loop ends. Using height=0 at the end forces all remaining bars to be popped and calculated.
+**Dry Run:** `heights = [2, 1, 5, 6, 2, 3]`
+```
+right = [1, 6, 4, 4, 6, 6]
+left  = [-1,-1, 1, 2, 1, 4]
 
-**My doubt:** Why left = -1 when stack is empty?
-**Answer:** No bar to the left means rectangle extends all the way to index 0. Using -1 as boundary: width = i - (-1) - 1 = i gives correct width.
+i=0: width=1-(-1)-1=1,  area=2×1=2
+i=1: width=6-(-1)-1=6,  area=1×6=6
+i=2: width=4-1-1=2,     area=5×2=10 ✅
+i=3: width=4-2-1=1,     area=6×1=6
+i=4: width=6-1-1=4,     area=2×4=8
+i=5: width=6-4-1=1,     area=3×1=3
+
+maxArea = 10 ✅
+```
+
+**My doubt:** Why -1 for left and n for right when stack empty?
+**Answer:** They are virtual boundaries one step OUTSIDE the array. This makes the width formula work correctly for bars that extend to the edges. Without them, bars at the edges would have incorrect width calculations.
+
+**My doubt:** Why >= when popping (not just >)?
+**Answer:** Equal height bars should also be popped — two bars of same height can't both be the "limiting factor". Only the outermost one matters.
 
 ---
 
