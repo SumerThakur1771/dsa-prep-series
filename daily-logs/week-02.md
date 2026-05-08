@@ -110,12 +110,20 @@
 - ✅ Linked List Cycle — slow/fast, meet = cycle
 - ✅ Max Area Histogram — remembered full optimal approach independently!
 
-**Key insight today:** Max Area Histogram optimal approach fully clicked — for each bar find left smaller and right smaller, width = right - left - 1, default boundaries are -1 and n.
-
 ---
 
 ## Day 7 — April 7 (Sunday)
-*(to be filled)*
+
+**Topics Covered:** Week 2 full revision — re-solved problems from scratch
+
+**Problems re-solved from memory:**
+- ✅ #3 Longest Substring Without Repeating — solved with minor syntax fixes
+- ✅ #49 Group Anagrams — solved with minor syntax fixes
+- ✅ #84 Largest Rectangle in Histogram (Hard) — solved from memory! 🎯
+
+**Key insight today:** Solving a Hard problem from memory on revision day shows real understanding. The optimal approach (find left smaller + right smaller separately) is cleaner and easier to remember than single pass version.
+
+**Struggles:** Minor syntax issues (array initialization, typos) but logic was correct throughout. No conceptual struggles on revision day — Week 2 concepts are solid.
 
 ---
 
@@ -133,6 +141,23 @@
 
 ---
 
-## 🎯 Next Session (Day 7 — April 7)
-- Week 2 full revision + notes cleanup
-- Plan Week 3
+## 🏆 Week 2 Summary
+
+- **Concepts learned:** Doubly LL, Circular LL, Stack (NGE, Stock Span, Valid Parens, Duplicate Parens, Max Area Histogram), Queue intro, Sliding Window, HashMap patterns
+- **Problems solved:** 5/5 Blind 75 problems
+- **Biggest win:** Solved Hard problem (#84) from memory on revision day
+- **Patterns learned:** Sliding Window, Stack patterns (NGE, Span, Parentheses, Histogram)
+
+---
+
+## 🎯 Week 3 Plan (April 7–13)
+
+```
+Day 1 → Queue using stacks, Circular Queue | #20 Valid Parentheses
+Day 2 → Deque, First Non-Repeating | #155 Min Stack
+Day 3 → Binary Trees intro, Traversals | #232 Queue using Stacks
+Day 4 → Level Order, Height, Count | #739 Daily Temperatures
+Day 5 → Build Tree from Preorder | #19 Remove Nth Node
+Day 6 → Diameter, Views of Tree | Revision
+Day 7 → Week 3 revision + notes
+```
