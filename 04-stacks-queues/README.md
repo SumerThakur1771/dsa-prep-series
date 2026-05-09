@@ -357,12 +357,133 @@ maxArea = 10 ✅
 
 ---
 
+## 🗂️ Queue
+
+> **One-liner:** FIFO — First In First Out. Like a line at a coffee shop — first person in line gets served first.
+
+### Core Implementation
+
+```java
+Queue<Integer> queue = new LinkedList<>();
+queue.add(1);      // enqueue — add to back
+queue.poll();      // dequeue — remove from front and return
+queue.peek();      // look at front without removing
+queue.isEmpty();   // check if empty
+queue.size();      // number of elements
+```
+
+---
+
+### Queue using Two Stacks — O(1) amortized
+**Difficulty: Medium**
+
+Implement a Queue using only Stacks. Stack=LIFO, Queue=FIFO — they're opposites. Pouring one stack into another reverses order turning LIFO into FIFO!
+
+- **Stack1** = inbox (enqueue here)
+- **Stack2** = outbox (dequeue from here)
+- Pour stack1 into stack2 ONLY when stack2 is empty
+
+```java
+class MyQueue {
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> stack2 = new Stack<>();
+
+    void push(int x) {
+        stack1.push(x);
+    }
+
+    int pop() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+    }
+
+    int peek() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.peek();
+    }
+
+    boolean empty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+```
+
+**My doubt:** Why only pour when stack2 is empty?
+**Answer:** If stack2 already has elements they're already in correct FIFO order. Pouring again would mess up the order. Only pour when stack2 runs out.
+
+**My doubt:** Why does pouring reverse the order?
+**Answer:** stack1=[1,2,3] (3 on top). Pouring into stack2: pop 3→push, pop 2→push, pop 1→push. stack2=[3,2,1] (1 on top). Now 1 comes out first = FIFO! ✅
+
+---
+
+### Circular Queue
+**Difficulty: Medium**
+
+Fixed size queue where end connects back to beginning using modulo (%).
+
+- `front` — index to dequeue from
+- `rear` — index to enqueue to
+- `size` — current elements
+- `capacity` — max elements
+- Wrap around: `rear = (rear + 1) % capacity`
+
+```java
+class CircularQueue {
+    int[] arr;
+    int capacity, size, front, rear;
+
+    CircularQueue(int capacity) {
+        this.capacity = capacity;
+        arr = new int[capacity];
+        size = 0;
+        front = 0;
+        rear = 0;
+    }
+
+    void enqueue(int x) {
+        if (isFull()) { System.out.println("Queue full!"); return; }
+        arr[rear] = x;
+        rear = (rear + 1) % capacity;
+        size++;
+    }
+
+    int dequeue() {
+        if (isEmpty()) { System.out.println("Queue empty!"); return -1; }
+        int element = arr[front];
+        front = (front + 1) % capacity;
+        size--;
+        return element;
+    }
+
+    boolean isEmpty() { return size == 0; }
+    boolean isFull()  { return size == capacity; }
+}
+```
+
+**My doubt:** How is the end connected to start?
+**Answer:** Not physically connected — modulo (%) wraps the index. `(4+1) % 5 = 0` — goes back to start automatically!
+
+**My doubt:** Why track size separately?
+**Answer:** Without size you can't distinguish full vs empty — both cases have front==rear. Size removes ambiguity.
+
+---
+
 ## 💡 Interview Tips
 
 - ✅ Stack problems — always think: what information do I need to keep track of?
 - ✅ NGE pattern — right to left + stack of candidates
 - ✅ Span pattern — left to right + stack of indices
 - ✅ When you see "next greater/smaller" → think stack immediately
+- ✅ Queue using stacks — only pour stack1→stack2 when stack2 is empty
+- ✅ Circular Queue — always use modulo for front/rear movement
 
 ---
 
@@ -370,17 +491,17 @@ maxArea = 10 ✅
 
 | # | Problem | Difficulty | Pattern | Status |
 |---|---------|------------|---------|--------|
-| 20 | Valid Parentheses | Easy | Stack | ⬜ |
+| 20 | Valid Parentheses | Easy | Stack | ✅ |
+| 232 | Implement Queue using Stacks | Medium | Two Stacks | ✅ |
 | 155 | Min Stack | Medium | Stack | ⬜ |
 | 739 | Daily Temperatures | Medium | NGE pattern | ⬜ |
-| 84 | Largest Rectangle in Histogram | Hard | Stack | ⬜ |
+| 84 | Largest Rectangle in Histogram | Hard | Stack | ✅ |
 | 239 | Sliding Window Maximum | Hard | Deque | ⬜ |
 
 ---
 
 ## 🔗 Related Topics
 
-- **Linked Lists** — Stack can be implemented using linked list
-- **Queues** — opposite of stack, FIFO
-- **Trees** — DFS uses stack internally
-- **Graphs** — DFS uses stack internally
+- **Linked Lists** — Stack/Queue can be implemented using linked list
+- **Trees** — BFS uses Queue, DFS uses Stack
+- **Graphs** — BFS uses Queue, DFS uses Stack

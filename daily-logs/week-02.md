@@ -9,6 +9,7 @@
 **Topics Covered:** Doubly Linked List, Circular Linked List, Longest Substring Without Repeating Characters
 
 **What I learned:**
+
 - Doubly LL — node has prev + val + next. Must set BOTH next and prev when connecting nodes. Can traverse forward and backward.
 - Circular LL — last node points back to head. To print without infinite loop, stop when curr == head. Used in round robin scheduling, music player loop.
 - Longest Substring — sliding window + HashMap. Store char → last seen index. Only treat as repeat if previous index >= left (inside current window). maxLength updates every step not just on repeat.
@@ -26,6 +27,7 @@
 **Topics Covered:** Stack intro, ArrayList intro, Group Anagrams
 
 **What I learned:**
+
 - Stack — LIFO (Last In First Out). push adds to top, pop removes from top, peek looks at top. Built-in Java Stack class available.
 - ArrayList — dynamic array. Grows/shrinks automatically. add(), get(), size(), remove() are main methods. Inside <> always use wrapper class (Integer not int, String is always String).
 - Group Anagrams — sort each string to get key. All anagrams produce same sorted string. Use HashMap<String, List<String>> to group. putIfAbsent creates empty list if key new. Add ORIGINAL string not sorted version.
@@ -44,6 +46,7 @@
 **Topics Covered:** NGE (Next Greater Element), Stock Span, Reverse Linked List
 
 **What I learned:**
+
 - NGE — process right to left. Stack stores VALUES. Pop elements smaller than current (they can never be NGE). Stack top after popping = NGE. If stack empty = -1.
 - Stock Span — process left to right. Stack stores INDICES not values. Pop indices where price <= current. If stack empty → span = i+1. If not → span = i - stack.peek(). Push current index.
 - Reverse Linked List — 3 pointers (prev, curr, next). Save next BEFORE reversing. Order: save next → reverse pointer → move prev → move curr. Return prev not head.
@@ -61,6 +64,7 @@
 **Topics Covered:** Valid Parentheses, Duplicate Parentheses, Merge Two Sorted Lists
 
 **What I learned:**
+
 - Valid Parentheses — push opening brackets. On closing bracket, pop and check match. Return stack.isEmpty() at end. If stack top doesn't match closing bracket → always invalid (brackets are crossed).
 - Duplicate Parentheses — push everything except ')'. On ')' — pop until '(' and count. If count==0 → duplicate brackets (nothing meaningful between them). Brackets themselves don't count because inner brackets were already processed.
 - Merge Two Sorted Lists — dummy head + two pointers. Compare vals, attach smaller, move pointer. Attach remaining with if (not while). Return dummy.next.
@@ -78,6 +82,7 @@
 **Topics Covered:** Max Area Histogram, Linked List Cycle
 
 **What I learned:**
+
 - Max Area Histogram — height of rectangle = shortest bar in range (limiting factor). Brute force O(n²): fix start with outer loop, expand right with inner loop, track minHeight as you go.
 - Stack approach O(n) — for each bar find left smaller and right smaller using two separate stack passes. Width = right[i] - left[i] - 1. No left boundary → -1, no right boundary → n (virtual boundaries outside array).
 - Linked List Cycle — Floyd's algorithm: slow moves 1 step, fast moves 2 steps. If they meet → cycle. && not || in while condition.
@@ -95,10 +100,12 @@
 **Topics Covered:** Queue intro + Week 2 revision
 
 **What I learned:**
+
 - Queue — FIFO (First In First Out). Add to BACK (enqueue), remove from FRONT (dequeue). In Java: `Queue<Integer> queue = new LinkedList<>()`. Methods: add(), poll(), peek(), isEmpty().
 - Queue vs Stack: Stack=LIFO (plates), Queue=FIFO (coffee line)
 
 **Week 2 Revision Results:**
+
 - ✅ Doubly LL — connect first then update head, prev+val+next
 - ✅ Circular LL — stop when curr == head
 - ✅ Longest Substring — HashMap char→index, >= left check
@@ -117,6 +124,7 @@
 **Topics Covered:** Week 2 full revision — re-solved problems from scratch
 
 **Problems re-solved from memory:**
+
 - ✅ #3 Longest Substring Without Repeating — solved with minor syntax fixes
 - ✅ #49 Group Anagrams — solved with minor syntax fixes
 - ✅ #84 Largest Rectangle in Histogram (Hard) — solved from memory! 🎯
@@ -129,13 +137,13 @@
 
 ## 📊 Problems Solved This Week
 
-| Problem | Difficulty | Time Taken | Attempts | Key Takeaway |
-|---------|------------|------------|----------|--------------|
-| #3 Longest Substring Without Repeating | Medium | 25 min | 3 | Sliding window + >= left check |
-| #49 Group Anagrams | Medium | 30 min | 2 | Sort each string as key, add original to list |
-| #206 Reverse Linked List | Easy | 15 min | 2 | Save next before reversing, return prev not head |
-| #21 Merge Two Sorted Lists | Easy | 20 min | 1 | Dummy head + if not while for remaining |
-| #141 Linked List Cycle | Easy | 10 min | 1 | Floyd's — slow/fast pointers, && not || |
+| Problem                                | Difficulty | Time Taken | Attempts | Key Takeaway                                     |
+| -------------------------------------- | ---------- | ---------- | -------- | ------------------------------------------------ | --- | --- |
+| #3 Longest Substring Without Repeating | Medium     | 25 min     | 3        | Sliding window + >= left check                   |
+| #49 Group Anagrams                     | Medium     | 30 min     | 2        | Sort each string as key, add original to list    |
+| #206 Reverse Linked List               | Easy       | 15 min     | 2        | Save next before reversing, return prev not head |
+| #21 Merge Two Sorted Lists             | Easy       | 20 min     | 1        | Dummy head + if not while for remaining          |
+| #141 Linked List Cycle                 | Easy       | 10 min     | 1        | Floyd's — slow/fast pointers, && not             |     |     |
 
 **Total: 5 / 5** ✅
 
