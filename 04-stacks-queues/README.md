@@ -474,9 +474,70 @@ class CircularQueue {
 **My doubt:** Why track size separately?
 **Answer:** Without size you can't distinguish full vs empty — both cases have front==rear. Size removes ambiguity.
 
----
+### First Non-Repeating Character in Stream
+**Difficulty: Medium**
 
-## 💡 Interview Tips
+Given a stream of characters, after each character find the first non-repeating character so far.
+
+**Approach:** HashMap tracks frequency. Deque maintains order. Remove from front LAZILY — only when front has count > 1.
+
+**Why not remove repeated chars immediately from middle?**
+Deque only supports O(1) front/back access. Middle removal is O(n). More importantly — middle repeated chars don't affect the answer until they reach the front!
+
+**Why while not if for front removal?**
+Multiple consecutive repeated elements could be at front. `if` only removes one. `while` keeps removing until front is valid or deque is empty.
+
+```java
+static char[] firstNonRepeating(String stream) {
+    HashMap<Character, Integer> map = new HashMap<>();
+    Deque<Character> deque = new ArrayDeque<>();
+    char[] result = new char[stream.length()];
+    int i = 0;
+
+    for (char c : stream.toCharArray()) {
+        // 1. add to deque
+        deque.addLast(c);
+
+        // 2. update frequency
+        if (map.containsKey(c)) {
+            map.put(c, map.get(c) + 1);
+        } else {
+            map.put(c, 1);
+        }
+
+        // 3. remove from front while front has count > 1
+        while (!deque.isEmpty() && map.get(deque.peekFirst()) > 1) {
+            deque.removeFirst();
+        }
+
+        // 4. store result
+        result[i] = deque.isEmpty() ? '#' : deque.peekFirst();
+        i++;
+    }
+
+    return result;
+}
+```
+
+**Dry Run:** `stream = "aabcb"`
+```
+'a': deque=[a], map={a:1} → front=a ✅
+'a': deque=[a,a], map={a:2} → remove 'a','a' → deque=[] → '#'
+'b': deque=[b], map={a:2,b:1} → front=b ✅
+'c': deque=[b,c], map={a:2,b:1,c:1} → front=b ✅
+'b': deque=[b,c,b], map={a:2,b:2,c:1} → remove 'b' → deque=[c,b] → front=c ✅
+
+Result: [a, #, b, b, c] ✅
+```
+
+**My doubt:** Why don't we remove repeated chars from middle of deque?
+**Answer:** Deque doesn't support efficient middle removal. Also middle repeated chars don't affect answer — we only care about front. Lazy cleanup: remove only when they reach front.
+
+**My doubt:** Why use '#' when deque is empty?
+**Answer:** '#' is a placeholder meaning "no non-repeating character exists". All characters have repeated. Can use any char not in stream.
+
+**My doubt:** Why does map.put() not add duplicate key?
+**Answer:** HashMap never has duplicate keys. put() with existing key OVERWRITES the value, doesn't add new entry.
 
 - ✅ Stack problems — always think: what information do I need to keep track of?
 - ✅ NGE pattern — right to left + stack of candidates

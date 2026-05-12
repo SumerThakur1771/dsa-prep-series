@@ -1,3 +1,7 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+
 /**
  * Problem: Linked List Cycle
  * Link: https://leetcode.com/problems/linked-list-cycle/
