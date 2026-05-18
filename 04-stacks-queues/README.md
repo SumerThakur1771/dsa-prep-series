@@ -374,6 +374,29 @@ queue.size();      // number of elements
 
 ---
 
+### Deque (Double Ended Queue)
+Unlike regular Queue — add AND remove from BOTH ends!
+
+```java
+Deque<Integer> deque = new ArrayDeque<>();
+deque.addFirst(1);    // add to front
+deque.addLast(2);     // add to back
+deque.removeFirst();  // remove from front
+deque.removeLast();   // remove from back
+deque.peekFirst();    // look at front
+deque.peekLast();     // look at back
+```
+
+**ArrayDeque vs LinkedList:**
+- Both implement Deque interface
+- ArrayDeque is faster (array-based, better cache performance)
+- LinkedList uses more memory (stores pointers)
+- **Prefer ArrayDeque** for Stack, Queue, and Deque operations
+
+**Use cases:** Sliding window maximum, palindrome check, BFS with priority
+
+---
+
 ### Queue using Two Stacks — O(1) amortized
 **Difficulty: Medium**
 
