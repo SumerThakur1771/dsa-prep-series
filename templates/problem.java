@@ -72,7 +72,9 @@ class Solution {
  * - #[num] [Problem Name] — [Difficulty]
  */
 
-
-ListNode dummy = new ListNode(0);
-ListNode curr = dummy;
-
+public static void postOrdertraverse(TreeNode root){
+    if (root == null) return;
+    postOrdertraverse(root.left);
+    postOrdertraverse(root.right);
+    System.out.println(root.val);
+}
