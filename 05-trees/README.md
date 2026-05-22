@@ -125,6 +125,95 @@ static void postOrder(TreeNode root) {
 
 ---
 
+### Level Order — BFS (Level by Level)
+**When to use:** Find nodes at each level, shortest path, level-wise processing
+
+Uses **Queue** — FIFO ensures level by level processing.
+
+```java
+static void levelOrder(TreeNode root) {
+    if (root == null) return;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    while (!queue.isEmpty()) {
+        TreeNode node = queue.poll();
+        System.out.print(node.val + " ");
+        if (node.left != null) queue.add(node.left);
+        if (node.right != null) queue.add(node.right);
+    }
+}
+```
+
+**Dry Run for tree above:**
+```
+queue=[1]
+dequeue 1 → print 1, enqueue 2,3 → queue=[2,3]
+dequeue 2 → print 2, enqueue 4,5 → queue=[3,4,5]
+dequeue 3 → print 3, no children → queue=[4,5]
+dequeue 4 → print 4, no children → queue=[5]
+dequeue 5 → print 5, no children → queue=[]
+
+Output: 1 2 3 4 5 ✅
+```
+
+**My doubt:** Why Queue and not Stack for level order?
+**Answer:** Queue is FIFO — processes nodes in order they were discovered. Stack would give DFS (depth first) not BFS (breadth first). Level order needs to finish one level before going deeper = FIFO.
+
+---
+
+## 📐 Tree Properties
+
+### Height of Tree — O(n)
+Height = longest path from root to leaf (counting nodes).
+
+**Formula:** `height = 1 + max(height(left), height(right))`
+**Base case:** `height(null) = 0`
+
+```java
+static int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}
+```
+
+**Dry Run:**
+```
+height(4) = 1 + max(0,0) = 1
+height(5) = 1 + max(0,0) = 1
+height(2) = 1 + max(1,1) = 2
+height(3) = 1 + max(0,0) = 1
+height(1) = 1 + max(2,1) = 3 ✅
+```
+
+---
+
+### Count Nodes — O(n)
+Count total nodes in tree.
+
+**Formula:** `count = 1 + count(left) + count(right)`
+**Base case:** `count(null) = 0`
+
+```java
+static int countNodes(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + countNodes(root.left) + countNodes(root.right);
+}
+```
+
+**Notice the pattern:**
+```
+Height: 1 + MAX(left, right)  → picks longer path
+Count:  1 + left + right       → adds both sides
+```
+
+Same recursion structure, different operation!
+
+**My doubt:** Why does `root` parameter name not always mean the actual root?
+**Answer:** `root` is just a parameter name — it refers to "current node being processed". In recursive calls it changes to left child, right child etc. Could be named `node` for clarity — both work the same.
+
+---
+
 ## 🔄 How Recursion Works for Traversals
 
 Inorder trace for tree above:
