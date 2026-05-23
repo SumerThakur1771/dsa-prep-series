@@ -243,7 +243,109 @@ Key insight: Recursion goes all the way DOWN to null before printing. Like unwin
 
 ---
 
-## ⚠️ Common Mistakes
+### Diameter of Binary Tree — O(n)
+Diameter = longest path between any two nodes (measured in edges).
+
+**Key insight:** For each node, longest path THROUGH it = height(left) + height(right)
+Track maximum across ALL nodes using global variable.
+
+**Why edges not nodes?** Diameter = edges. Height returns nodes. `left + right` = edges on both sides = diameter in edges ✅
+
+```java
+int maxDiameter = 0;
+
+int height(TreeNode root) {
+    if (root == null) return 0;
+    int left = height(root.left);
+    int right = height(root.right);
+    maxDiameter = Math.max(maxDiameter, left + right);  // update diameter
+    return 1 + Math.max(left, right);  // return height
+}
+
+int diameterOfBinaryTree(TreeNode root) {
+    height(root);  // triggers recursion, updates maxDiameter as side effect
+    return maxDiameter;
+}
+```
+
+**My doubt:** Why call height(root) if we return maxDiameter?
+**Answer:** height(root) triggers full recursion through tree, updating maxDiameter at every node as side effect. We don't use the return value (height) — we just need the side effect (maxDiameter updates).
+
+**My doubt:** Why maxDiameter is class-level variable?
+**Answer:** Class-level variables are shared across all methods in the class. Both height() and diameterOfBinaryTree() can access and modify the same maxDiameter — like a shared whiteboard in a room.
+
+**My doubt:** Height uses `1 + max(left, right)` but diameter uses `left + right` — why no +1?
+**Answer:** Height counts NODES, diameter counts EDGES. Edges = nodes - 1. So diameter = left_nodes + right_nodes - 1... but since height already returns nodes, left+right gives edges on both sides directly. No +1 needed.
+
+---
+
+### Left View — O(n)
+Nodes visible from left side = first node at each level.
+
+Uses level order with `size` trick to track level boundaries.
+
+```java
+static void leftView(TreeNode root) {
+    if (root == null) return;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    while (!queue.isEmpty()) {
+        int size = queue.size();  // nodes at current level
+
+        for (int i = 0; i < size; i++) {
+            TreeNode node = queue.poll();
+            if (i == 0) System.out.print(node.val + " ");  // first node
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+    }
+}
+```
+
+---
+
+### Right View — O(n)
+Nodes visible from right side = last node at each level.
+
+```java
+static void rightView(TreeNode root) {
+    if (root == null) return;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+
+        for (int i = 0; i < size; i++) {
+            TreeNode node = queue.poll();
+            if (i == size - 1) System.out.print(node.val + " ");  // last node
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+    }
+}
+```
+
+**My doubt:** Why size = queue.size() before the for loop?
+**Answer:** queue.size() changes as we add children inside the loop. Capturing size BEFORE the loop freezes the count at current level.
+
+Example — Iteration 2 with queue=[2,3]:
+```
+size = 2  ← frozen here before loop
+
+i=0: poll 2, enqueue 4,5 → queue=[3,4,5]  (size still = 2!)
+i=1: poll 3, enqueue 6   → queue=[4,5,6]  (size still = 2!)
+loop ends after 2 iterations ✅
+```
+
+If we used queue.size() inside loop condition → after i=0, size becomes 3 → loop runs 3 times → processes nodes from next level too! ❌
+
+**My doubt:** Why i == size-1 for right view not i == 1?
+**Answer:** Last node index depends on level size. Level with 3 nodes → last is index 2 = size-1. Level with 1 node → last is index 0 = size-1. Always size-1, never fixed index.
+
+**My doubt:** Why add left before right when enqueuing children?
+**Answer:** Standard tree processing is left to right. Adding right before left reverses the order — "last" node at each level would be leftmost giving wrong right view.
 
 - ❌ Forgetting base case `if (root == null) return` → infinite recursion/crash
 - ❌ Wrong order of recursive calls — determines which traversal you get

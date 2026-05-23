@@ -1,10 +1,14 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Problem: [Problem Name]
  * Link: https://leetcode.com/problems/[problem-slug]/
  * Difficulty: Easy / Medium / Hard
  *
  * Topic: Arrays / Strings / Linked Lists / Stacks / Trees / Graphs / DP / etc.
- * Pattern: Two Pointers / Sliding Window / HashMap / BFS / DFS / Recursion / etc.
+ * Pattern: Two Pointers / Sliding Window / HashMap / BFS / DFS / Recursion /
+ * etc.
  *
  * ─────────────────────────────────────────────
  * APPROACH
@@ -18,13 +22,13 @@
  * ─────────────────────────────────────────────
  * COMPLEXITY
  * ─────────────────────────────────────────────
- * Time:  O(?)  — reason
- * Space: O(?)  — reason
+ * Time: O(?) — reason
+ * Space: O(?) — reason
  *
  * ─────────────────────────────────────────────
- * DRY RUN  (small example)
+ * DRY RUN (small example)
  * ─────────────────────────────────────────────
- * Input:  [example input]
+ * Input: [example input]
  * Step 1: ...
  * Step 2: ...
  * Output: [expected output]
@@ -34,7 +38,8 @@ class Solution {
 
     public ReturnType methodName(ParamType param) {
         // ── Edge cases ────────────────────────────────
-        if (param == null) return null;
+        if (param == null)
+            return null;
 
         // ── Core logic ────────────────────────────────
 
@@ -50,14 +55,14 @@ class Solution {
  * ─────────────────────────────────────────────
  * ALTERNATIVE APPROACHES
  * ─────────────────────────────────────────────
- * Brute Force:  O(?) time, O(?) space
- *   → [brief description]
+ * Brute Force: O(?) time, O(?) space
+ * → [brief description]
  *
- * Better:       O(?) time, O(?) space
- *   → [brief description]
+ * Better: O(?) time, O(?) space
+ * → [brief description]
  *
  * Optimal (above): O(?) time, O(?) space
- *   → [brief description]
+ * → [brief description]
  *
  * ─────────────────────────────────────────────
  * COMMON MISTAKES
