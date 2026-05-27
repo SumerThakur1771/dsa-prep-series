@@ -108,15 +108,26 @@
 - ✅ Circular Queue — modulo wraps index back to 0
 
 **Problems re-solved from memory:**
-- ✅ #155 Min Stack — solved with minor syntax fixes (isEmpty() not isEmpty)
+- ✅ #155 Min Stack — solved with minor syntax fixes
 - ✅ #739 Daily Temperatures — solved, fixed return inside loop bug
 
-**Key insight today:** Min Stack — stack2 has one entry per stack1 entry always. For every push to stack1 → push min to stack2. For every pop from stack1 → pop from stack2. They stay permanently in sync.
+**Key insight today:** Min Stack — stack2 has one entry per stack1 entry always. For every push → push min. For every pop → pop both. Permanently in sync.
 
 ---
 
 ## Day 7 — April 13 (Sunday)
-*(to be filled)*
+
+**Topics Covered:** Week 3 full revision
+
+**Revision Q&A Results:**
+- ✅ Traversals — inorder=left/root/right, preorder=root/left/right, postorder=left/right/root
+- ✅ Height — `1 + Math.max(height(left), height(right))`, base case null=0
+- ✅ Level Order size trick — freezes level count before loop so queue growth doesn't affect it
+- ✅ Diameter — edges not nodes so `left + right` no +1
+- ✅ Queue using Stacks — pouring when stack2 not empty destroys FIFO order
+- ✅ Right View — last node at index `size-1` e.g. 4 nodes → index 3
+
+**Key insight today:** Diameter uses `left + right` (no +1) because it counts EDGES. Height uses `1 + max(left, right)` because it counts NODES. One formula difference, completely different meaning!
 
 ---
 
@@ -135,6 +146,23 @@
 
 ---
 
-## 🎯 Next Session (Day 7 — April 13)
-- Week 3 full revision + notes cleanup
-- Plan Week 4
+## 🏆 Week 3 Summary
+
+- **Concepts learned:** Queue using Stacks, Circular Queue, Deque, First Non-Repeating, Min Stack, Binary Trees (all traversals), Level Order, Height, Count, Diameter, Left/Right Views
+- **Problems solved:** 5/5 Blind 75 problems
+- **Biggest win:** Binary Trees clicked quickly — traversals, height, diameter all understood in one session
+- **Patterns learned:** Level Order (BFS), Tree recursion, Size trick for level separation
+
+---
+
+## 🎯 Week 4 Plan (April 14–20)
+
+```
+Day 1 → BST intro, insert, search | #226 Invert Binary Tree
+Day 2 → BST delete, LCA | #100 Same Tree
+Day 3 → BST problems | #572 Subtree of Another Tree
+Day 4 → BST to sorted array | #102 Level Order Traversal
+Day 5 → Revision: Arrays, Strings, LL | Mixed LC
+Day 6 → Revision: Stacks, Queues, Trees | Mixed LC
+Day 7 → Week 4 revision + notes
+```
