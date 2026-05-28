@@ -76,3 +76,19 @@ class Solution {
  * - #[num] [Problem Name] — [Difficulty]
  * - #[num] [Problem Name] — [Difficulty]
  */
+
+public boolean search(TreeNode root, int target) {
+    if (root == null) return false;      // base case first!
+    if (root.val == target) return true;
+    if (target < root.val) return search(root.left, target);
+    return search(root.right, target);
+}
+
+public TreeNode insert(TreeNode root, int val) {
+    if (root == null) return new TreeNode(val);  // found spot!
+    if (val < root.val) 
+        root.left = insert(root.left, val);   // go left
+    else 
+        root.right = insert(root.right, val); // go right
+    return root;
+}

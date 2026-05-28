@@ -347,9 +347,89 @@ If we used queue.size() inside loop condition → after i=0, size becomes 3 → 
 **My doubt:** Why add left before right when enqueuing children?
 **Answer:** Standard tree processing is left to right. Adding right before left reverses the order — "last" node at each level would be leftmost giving wrong right view.
 
+---
+
+## 🌲 Binary Search Tree (BST)
+
+> **One-liner:** Binary Tree with ordering rule — left < parent < right for every node.
+
+### Key Property
+```
+        5
+       / \
+      3   7
+     / \ / \
+    2  4 6  8
+```
+- Every node in LEFT subtree < current node
+- Every node in RIGHT subtree > current node
+- Applies recursively to ALL nodes!
+
+**Why useful?** Search is O(log n) — at each node eliminate half the tree!
+
+---
+
+### Search in BST — O(log n)
+```java
+public boolean search(TreeNode root, int target) {
+    if (root == null) return false;
+    if (root.val == target) return true;
+    if (target < root.val) return search(root.left, target);
+    return search(root.right, target);
+}
+```
+
+**My doubt:** Why check root==null BEFORE root.val==target?
+**Answer:** If root is null, accessing root.val crashes! Always null check first — this is the base case that stops recursion.
+
+---
+
+### Insert in BST — O(log n)
+Find the correct null spot and insert. Return updated tree.
+
+```java
+public TreeNode insert(TreeNode root, int val) {
+    if (root == null) return new TreeNode(val);  // found the spot!
+    if (val < root.val)
+        root.left = insert(root.left, val);   // go left
+    else
+        root.right = insert(root.right, val); // go right
+    return root;
+}
+```
+
+**My doubt:** Why store result in root.left = insert(...)?
+**Answer:** When recursion hits null and returns new TreeNode, that node needs to be ATTACHED to the tree. Without `root.left = insert(...)`, the new node is created but never connected — it disappears!
+
+**My doubt:** Why return root at the end?
+**Answer:** Parent call needs to reconnect the subtree. `root.left = insert(root.left, val)` uses this return value to maintain the tree structure.
+
+---
+
+### Invert Binary Tree — O(n)
+Swap left and right children at every node recursively.
+
+```java
+public TreeNode invertTree(TreeNode root) {
+    if (root == null) return null;
+    TreeNode temp = root.right;
+    root.right = root.left;
+    root.left = temp;
+    invertTree(root.left);
+    invertTree(root.right);
+    return root;
+}
+```
+
+**My doubt:** Why swap first then recurse?
+**Answer:** Swap current node's children first, then recursively invert each subtree. Order doesn't actually matter here — both work. But swapping first is more intuitive.
+
+---
+
 - ❌ Forgetting base case `if (root == null) return` → infinite recursion/crash
 - ❌ Wrong order of recursive calls — determines which traversal you get
 - ❌ Confusing Binary Tree with Binary Search Tree — BT has no ordering rule
+- ❌ In BST insert — not storing result: `root.left = insert(root.left, val)` → new node never attached
 
 ---
 
