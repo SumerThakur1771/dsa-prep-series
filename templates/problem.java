@@ -77,12 +77,6 @@ class Solution {
  * - #[num] [Problem Name] — [Difficulty]
  */
 
-public boolean search(TreeNode root, int target) {
-    if (root == null) return false;      // base case first!
-    if (root.val == target) return true;
-    if (target < root.val) return search(root.left, target);
-    return search(root.right, target);
-}
 
 public TreeNode insert(TreeNode root, int val) {
     if (root == null) return new TreeNode(val);  // found spot!
@@ -92,3 +86,42 @@ public TreeNode insert(TreeNode root, int val) {
         root.right = insert(root.right, val); // go right
     return root;
 }
+
+public TreeNode search(TreeNode root, int target) {
+    if (root == null) return root.pare;      // base case first!
+    if (root.val == target) return true;
+    if (target < root.val) return search(root.left, target);
+    return search(root.right, target);
+}
+
+public TreeNode delete(TreeNode root, int val){
+    if(root == null) return null;
+    if(root.val > val){
+        root.left = delete(root.left, val);
+    }else if(root.val < val){
+        root.right = delete(root.right, val);
+    }else{
+    if(root.right == null && root.left == null) return null;
+    if(root.left == null)return root.right;
+    if(root.right == null)return root.left;
+
+    TreeNode successor = root.right;
+    while(successor.left != null) successor = successor.left;
+    root.val = successor.val;
+    root.right = delete(root.right, successor.val);
+    return root;
+    }
+}
+
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q){
+    if(root == null) return null;
+    if(root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+    if(root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+    return root;
+    
+}
+
+    if (p == null && q == null) return true;
+if (p == null || q == null) return false;  // one null other not
+if (p.val != q.val) return false;          // values differ
+return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);

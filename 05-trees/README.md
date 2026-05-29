@@ -406,7 +406,66 @@ public TreeNode insert(TreeNode root, int val) {
 
 ---
 
-### Invert Binary Tree — O(n)
+### BST Delete — O(log n)
+Three cases based on number of children.
+
+**Case 1:** No children (leaf) → return null (parent pointer becomes null)
+**Case 2:** One child → return that child (parent pointer skips deleted node)
+**Case 3:** Two children → replace with inorder successor (smallest in right subtree), delete successor
+
+**Why inorder successor?** It's greater than everything in left subtree AND smallest in right subtree → maintains BST property perfectly. Inorder predecessor (largest in left) also works!
+
+**Why return null removes node?** Parent does `root.left = delete(...)`. If delete returns null → `root.left = null` → node gone!
+
+```java
+public TreeNode delete(TreeNode root, int val) {
+    if (root == null) return null;
+    if (root.val > val) {
+        root.left = delete(root.left, val);
+    } else if (root.val < val) {
+        root.right = delete(root.right, val);
+    } else {  // found node to delete
+        if (root.left == null && root.right == null) return null;  // leaf
+        if (root.left == null) return root.right;   // one child
+        if (root.right == null) return root.left;   // one child
+        // two children — find inorder successor
+        TreeNode successor = root.right;
+        while (successor.left != null) successor = successor.left;
+        root.val = successor.val;
+        root.right = delete(root.right, successor.val);
+    }
+    return root;
+}
+```
+
+**My doubt:** How does returning null/root.right remove the node?
+**Answer:** Parent call stores: `root.left = delete(root.left, val)`. Whatever delete returns gets stored in parent's pointer. Return null → parent.left=null → deleted. Return root.right → parent.left=right child → node skipped.
+
+---
+
+### LCA of BST — O(log n)
+Lowest Common Ancestor = deepest node that has both p and q as descendants.
+
+**Key insight — use BST property:**
+- Both p,q < root → LCA in left subtree
+- Both p,q > root → LCA in right subtree
+- Otherwise → root IS the LCA (one on each side, or one equals root)
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null) return null;
+    if (root.val > p.val && root.val > q.val)
+        return lowestCommonAncestor(root.left, p, q);
+    if (root.val < p.val && root.val < q.val)
+        return lowestCommonAncestor(root.right, p, q);
+    return root;  // root is LCA!
+}
+```
+
+**My doubt:** Why return root when neither condition matches?
+**Answer:** If root is not greater than both AND not less than both → one of p,q is on each side (or one equals root). That means root is the DEEPEST node where paths to p and q diverge → LCA!
+
+---
 Swap left and right children at every node recursively.
 
 ```java
