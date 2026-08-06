@@ -125,3 +125,16 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q){
 if (p == null || q == null) return false;  // one null other not
 if (p.val != q.val) return false;          // values differ
 return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+
+int count = 0;
+int result = 0;
+public void kthsmallest (TeeNode root, int k){
+    if(root == null) return;
+    kthsmallest(root.left, k);
+    count++;
+    if(count == k){
+        result = root.val;
+        return;
+    }
+    kthsmallest(root.right, k);
+}
