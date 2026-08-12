@@ -1,4 +1,4 @@
-# Week 4 Log (April 14 – April 20, 2026)
+# Week 4 Log (April 14 – April 20 / Resumed August 2026)
 
 **Theme:** BST + Revision
 
@@ -37,21 +37,26 @@
 **Topics Covered:** Validate BST (#98), Subtree of Another Tree (#572)
 
 **What I learned:**
-- Validate BST — wrong approach: check just left < root < right. Correct: pass valid range (min, max) down. Going left → max becomes parent.val. Going right → min becomes parent.val.
-- Use Long not int for boundaries — node values can be Integer.MIN/MAX_VALUE, long prevents false failures.
-- Subtree of Another Tree — reuse isSameTree! At each node check if subtree matches subRoot. Recursion handles traversal automatically — no manual left/right tracking needed.
-- Key pattern: always think "can I reuse an existing function?" — decompose into known subproblems.
+- Validate BST — pass valid range (min, max) down. Going left → max becomes parent.val. Going right → min becomes parent.val. Use Long not int for boundaries.
+- Subtree of Another Tree — reuse isSameTree! Recursion handles traversal automatically.
+- Key pattern: always think "can I reuse an existing function?"
 
-**Code written:** `ValidateBST.java`, `SubtreeOfAnotherTree.java`
-
-**Key insight today:** Recursion IS the traversal — you just define what to do at each node, recursion handles getting there. Same insight applies to isSubtree, diameter, invertTree etc.
-
-**Struggles:** Understanding why max becomes 5 for node 6 in tricky BST case — clicked after tracing how max gets passed down through left child calls.
+**Key insight today:** Recursion IS the traversal — define what to do at each node, recursion handles getting there.
 
 ---
 
-## Day 4 — April 17
-*(to be filled)*
+## Day 4 — August 3
+
+**Topics Covered:** Kth Smallest in BST (#230), LCA of BST (#235), Level Order Traversal (#102)
+
+**What I learned:**
+- Kth Smallest — inorder of BST gives sorted order! Count to k using class-level variables (not local — reset on each call).
+- LCA of BST — 3 conditions: both < root → left, both > root → right, else root IS LCA. O(h) not O(n)!
+- Level Order — BFS with Queue. size trick freezes level count before for loop. Create new level list each iteration. Queue stores TreeNode not Integer.
+
+**Key insight today:** Level Order needs TWO lists — outer `result` for all levels, inner `level` for current level. Each while iteration = one complete level processed.
+
+**Struggles:** Level order — initially used `return levelOrder(node.left)` instead of `queue.add(node.left)`. Clicked after understanding queue.add is what enables BFS, not recursion!
 
 ---
 
@@ -70,20 +75,23 @@
 
 ---
 
-## 📊 Problems Solved This Week
+## 📊 Problems Solved
 
 | Problem | Difficulty | Companies | Key Takeaway |
 |---------|------------|-----------|--------------|
 | #226 Invert Binary Tree | Easy | Amazon, Google, Facebook | Swap left/right at every node |
 | #100 Same Tree | Easy | Amazon, Google, Bloomberg | Both null=true, one null=false |
-| #98 Validate BST | Medium | Amazon, Google, Facebook, Bloomberg + many more | Min/max range approach, use Long |
-| #572 Subtree of Another Tree | Easy | Amazon, Meta, Google | Reuse isSameTree, recursion handles traversal |
+| #98 Validate BST | Medium | Amazon, Google, Facebook + many | Min/max range, use Long |
+| #572 Subtree of Another Tree | Easy | Amazon, Meta, Google | Reuse isSameTree, recursion = traversal |
+| #230 Kth Smallest in BST | Medium | Amazon, Google, Facebook | Inorder = sorted, count to k |
+| #235 LCA of BST | Medium | Amazon, Google, Facebook | 3 BST conditions, O(h) not O(n) |
+| #102 Level Order Traversal | Medium | Amazon, Google, Facebook | BFS + size trick + two lists |
 
-**Total: 4 / 5**
+**Total: 7 problems** ✅
 
 ---
 
 ## 🎯 Next Session
-- #230 Kth Smallest in BST
-- #235 LCA of BST
-- #102 Binary Tree Level Order Traversal
+- #236 LCA of Binary Tree (harder — no BST property)
+- #105 Construct BT from Preorder/Inorder
+- Heaps intro
